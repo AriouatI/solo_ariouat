@@ -29,4 +29,4 @@ class MyState(object):
     def can_shoot(self):
         return self.my_position().distance(self.ball_position())<=(settings.PLAYER_RADIUS+settings.BALL_RADIUS)
 
-#test2
+#test3

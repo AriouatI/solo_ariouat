@@ -15,8 +15,8 @@ class MyState(object):
     def __init__(self,state,idteam,idplayer):
         self.state = state
         self.key = (idteam,idplayer)
-#        self.my_but = ....
-#        self.adv_but = ....
+        self.my_but = Vector2D(settings.GAME_WIDTH/2+(-1)**(self.key[0])*settings.GAME_WIDTH/2,settings.GAME_HEIGHT/2) 
+        self.adv_but = Vector2D(settings.GAME_WIDTH/2+(-1)**(self.key[0]+1)*settings.GAME_WIDTH/2,settings.GAME_HEIGHT/2)
     def my_position(self):
         return self.state.player_state(self.key[0],self.key[1]).position
         #equivalent a self.player_state(self.key[0],self.key[1])

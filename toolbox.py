@@ -28,3 +28,5 @@ class MyState(object):
         return SoccerAction(Vector2D(),p-self.my_position())
     def can_shoot(self):
         return self.my_position().distance(self.ball_position())<=(settings.PLAYER_RADIUS+settings.BALL_RADIUS)
+
+#test

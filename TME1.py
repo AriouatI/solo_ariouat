@@ -11,42 +11,14 @@ from soccersimulator import Strategy
 from soccersimulator import settings
 import math
 import toolbox
-
-#Coordonnees cartesiennes
-v = Vector2D(1.,1.)
-# Coordonnees polaires
-w = Vector2D(angle=3.14/2,norm=1)
-#Vecteur aleatoire
-z = Vector2D.create_random(-0.5,0.5)
-#ou retire le vecteur aleatoirement
-v.random(-1,1)
-#Operations usuelles
-print v+w, v-w, 2*v, v/2,
-#Manipulation (+=, -=, *=, /=)
-v += w
-v.x += 1
-v.norm += 1
-v.angle += 1
-print v
-# norme, distance, produit scalaire
-print v.norm, v.distance(w), v.dot(w)
-#Normalisation, norme max, mise a l echelle
-v.scale(2)
-print v
-v.normalize()
-print v
-print v.norm_max(0.2)
-# Attention, normalize et scale change le vecteur
-# norm_max renvoie un autre vecteur
         
 class MyStrategy(Strategy):
     def __init__(self):
         Strategy.__init__(self,"Ma strat")
     def compute_strategy(self,state,idteam,idplayer):
         mystate = toolbox.MyState(state,idteam,idplayer)
-        adv_but=Vector2D(settings.GAME_WIDTH/2+(-1)**(mystate.key[0]+1)*settings.GAME_WIDTH/2,settings.GAME_HEIGHT/2)
         if mystate.can_shoot():
-            return mystate.shoot(adv_but)
+            return mystate.shoot(mystate.adv_but)
         return mystate.aller(mystate.ball_position())   
         
 class MyStrategy1(Strategy):
@@ -54,14 +26,12 @@ class MyStrategy1(Strategy):
         Strategy.__init__(self,"Ma strat")
     def compute_strategy(self,state,idteam,idplayer):
         mystate = toolbox.MyState(state,idteam,idplayer)
-        but=Vector2D(settings.GAME_WIDTH/2+(-1)**(mystate.key[0])*settings.GAME_WIDTH/2,settings.GAME_HEIGHT/2)
-        adv_but=Vector2D(settings.GAME_WIDTH/2+(-1)**(mystate.key[0]+1)*settings.GAME_WIDTH/2,settings.GAME_HEIGHT/2)
         if mystate.can_shoot():
-            return mystate.shoot(adv_but)
+            return mystate.shoot(mystate.adv_but)
         elif mystate.my_position().distance(mystate.ball_position())<40:
             return mystate.aller(mystate.ball_position())
-        return mystate.aller((mystate.ball_position()-but).normalize()*10+but)   
-#Vector2D(settings.GAME_WIDTH/2+(-1)**(mystate.key[0])*60,settings.GAME_HEIGHT/2)
+        return mystate.aller((mystate.ball_position()-mystate.my_but).normalize()*10+mystate.my_but)
+
 joueur1 = Player("joueur 1", MyStrategy())
 joueur2 = Player("joueur 2", MyStrategy1())
 print joueur1.name, joueur2.strategy, joueur2.name, joueur2.strategy

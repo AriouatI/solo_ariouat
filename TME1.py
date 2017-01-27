@@ -69,17 +69,19 @@ class MyStrategyAtt1(Strategy):
 
 joueur1 = Player("Attaquant 1", MyStrategyAtt1())
 joueur2 = Player("Defenseur 2", MyStrategyDef1())
-#print joueur1.name, joueur2.strategy, joueur2.name, joueur2.strategy
 team1 = SoccerTeam("Equipe 1", [joueur1, joueur2])
-
-"""# renvoie la liste des noms, la liste des strategies
-print(team1.players_name, team1.strategies)
-# nom et strategie du premier joueur
-print team1.player_name(0), team1.strategy(0)"""
 
 joueur3 = Player("Defenseur 2", MyStrategyDef2())
 joueur4 = Player("Attaquant 2", MyStrategyAtt2())
 team2 = SoccerTeam("Equipe 2", [joueur3, joueur4])
+
+"""
+#print joueur1.name, joueur2.strategy, joueur2.name, joueur2.strategy
+# renvoie la liste des noms, la liste des strategies
+print(team1.players_name, team1.strategies)
+# nom et strategie du premier joueur
+print team1.player_name(0), team1.strategy(0)
+"""
 
 #Creer un match entre 2 equipes et de duree 2000 pas
 match = Simulation(team1, team2, 4000)
@@ -89,8 +91,5 @@ match = Simulation(team1, team2, 4000)
 show_simu(match)
 #Attention !! une fois le match joue, la fonction play() permet de faire jouer le replay
 # mais pas de relancer le match !!!
-# Pour regarder le replay d un match
-# show_simu(match)
 # Pour reinitialiser un match
 match.reset()
-

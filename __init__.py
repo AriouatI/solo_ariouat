@@ -15,7 +15,7 @@ import briques as BDB
 import messtrategies as MS
 
 team1 = SoccerTeam(name="team1",login="etu1")
-team1.add("Yannick",MS.Defense())
+team1.add("SOLO",MS.Defense())
 
 joueur2 = Player("Attaquant", MS.Attack())
 joueur3 = Player("Defenseur", MS.Defense())

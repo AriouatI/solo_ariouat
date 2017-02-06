@@ -15,17 +15,15 @@ class MyState(object):
     def __init__(self,state,idteam,idplayer):
         self.state = state
         self.key = (idteam,idplayer)
+        self.nbjoueurs=state.nb_players(1)
         self.my_but = Vector2D(settings.GAME_WIDTH/2+(-1)**(self.key[0])*settings.GAME_WIDTH/2,settings.GAME_HEIGHT/2) 
         self.adv_but = Vector2D(settings.GAME_WIDTH/2+(-1)**(self.key[0]+1)*settings.GAME_WIDTH/2,settings.GAME_HEIGHT/2)
     
     def my_position(self):
         return (self.state.player_state(self.key[0],self.key[1]).position)
     
-    def opponentPosition(self):
-        return (self.state.player_state((3-self.key[0]),0).position)
-        
-    def theOther(self):
-        return (self.state.player_state((3-self.key[0]),1).position)
+    def advPos(self,i):
+        return (self.state.player_state((3-self.key[0]),i).position)
         
     def ball_position(self):
         return self.state.ball.position
@@ -42,40 +40,16 @@ class MyState(object):
     def distanceToBall(self,a):
         return (a-self.ball_position()).norm
         
-    def closest2(self):
-        goodSide=True
-        maxid=self.key[1]
-        maxi=self.distanceToBall(self.my_position())
-        if (self.distanceToBall(self.opponentPosition())<maxi):
-            maxid=0
-            goodSide=False
-        if (self.distanceToBall(self.theOther())<maxi):
-            maxid=1
-            goodSide=False
-        return (goodSide,maxid)
-        
-    def closest1(self):
-        goodSide=True
-        maxid=self.key[1]
-        maxi=self.distanceToBall(self.my_position())
-        if (self.distanceToBall(self.opponentPosition())>=maxi):
-            maxid=0
-            goodSide=False
-        return (goodSide,maxid)
-
-    def advPos(self,i):
-        return (self.state.player_state((3-self.key[0]),i).position)
-        
     def closest(self,m):
         goodSide=True
         maxid=self.key[1]
         mini=self.distanceToBall(self.my_position())
-        if (self.distanceToBall(self.advPos(0))<mini+m):
-            mini=self.distanceToBall(self.advPos(0))
-            maxid=0
-            goodSide=False
-        if (self.distanceToBall(self.advPos(1)<mini+m)):
-            mini=self.distanceToBall(self.advPos(1))
-            maxid=1
-            goodSide=False
+        for i in range (self.nbjoueurs):
+            if (self.distanceToBall(self.advPos(i))<mini+m):
+                mini=self.distanceToBall(self.advPos(i))
+                maxid=i
+                goodSide=False
         return (goodSide,maxid)
+
+    def ballPredict(self,t):
+        return self.ball_position()+(self.state.ball.vitesse)*t

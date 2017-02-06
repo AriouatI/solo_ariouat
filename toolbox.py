@@ -74,7 +74,7 @@ class MyState(object):
             mini=self.distanceToBall(self.advPos(0))
             maxid=0
             goodSide=False
-        if (self.distanceToBall(self.advPos(1)<maxi+m):
+        if (self.distanceToBall(self.advPos(1)<mini+m)):
             mini=self.distanceToBall(self.advPos(1))
             maxid=1
             goodSide=False

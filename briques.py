@@ -20,3 +20,4 @@ def intercepter(m,d):
     
 def shootToGoal(m):
     return m.shoot(m.adv_but)
+

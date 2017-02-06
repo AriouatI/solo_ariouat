@@ -14,9 +14,17 @@ import toolbox
 import briques as BDB
 import messtrategies as MS
 
-team1 = SoccerTeam(name="team1",login="etu1")
-team1.add("SOLO",MS.Defense())
-
-joueur2 = Player("Attaquant", MS.Attack())
-joueur3 = Player("Defenseur", MS.Defense())
-team2 = SoccerTeam("Equipe 2", [joueur2,joueur3])
+def get_team(i):
+    s=SoccerTeam("Ariouati")
+    if (i==1):
+        s.add("SOLO",MS.Defense())
+    elif (i==2):
+        s.add("ATTAQUANT", MS.Attack())
+        s.add("DEFENSEUR", MS.Defense())
+    elif (i==4):
+        s.add("ATTAQUANT 1", MS.Attack())
+        s.add("ATTAQUANT 2 ", MS.Attack())
+        s.add("DEFENSEUR 1", MS.Defense())
+        s.add("DEFENSEUR 2", MS.Defense())
+    return s
+    

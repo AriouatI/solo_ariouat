@@ -19,8 +19,7 @@ class MyState(object):
         self.adv_but = Vector2D(settings.GAME_WIDTH/2+(-1)**(self.key[0]+1)*settings.GAME_WIDTH/2,settings.GAME_HEIGHT/2)
     
     def my_position(self):
-        return self.state.player_state(self.key[0],self.key[1]).position
-        #equivalent a self.player_state(self.key[0],self.key[1])
+        return (self.state.player_state(self.key[0],self.key[1]).position)
     
     def opponentPosition(self):
         return (self.state.player_state((3-self.key[0]),0).position)
@@ -47,10 +46,10 @@ class MyState(object):
         goodSide=True
         maxid=self.key[1]
         maxi=self.distanceToBall(self.my_position())
-        if (self.distanceToBall(self.opponentPosition())>=maxi):
+        if (self.distanceToBall(self.opponentPosition())<maxi):
             maxid=0
             goodSide=False
-        if (self.distanceToBall(self.theOther())>=maxi):
+        if (self.distanceToBall(self.theOther())<maxi):
             maxid=1
             goodSide=False
         return (goodSide,maxid)
@@ -61,5 +60,22 @@ class MyState(object):
         maxi=self.distanceToBall(self.my_position())
         if (self.distanceToBall(self.opponentPosition())>=maxi):
             maxid=0
+            goodSide=False
+        return (goodSide,maxid)
+
+    def advPos(self,i):
+        return (self.state.player_state((3-self.key[0]),i).position)
+        
+    def closest(self,m):
+        goodSide=True
+        maxid=self.key[1]
+        mini=self.distanceToBall(self.my_position())
+        if (self.distanceToBall(self.advPos(0))<mini+m):
+            mini=self.distanceToBall(self.advPos(0))
+            maxid=0
+            goodSide=False
+        if (self.distanceToBall(self.advPos(1)<maxi+m):
+            mini=self.distanceToBall(self.advPos(1))
+            maxid=1
             goodSide=False
         return (goodSide,maxid)

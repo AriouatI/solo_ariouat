@@ -72,9 +72,9 @@ class DefenseurQuiVaPasLoin(Strategy):
     def compute_strategy(self,state,idteam,idplayer):
         mystate = toolbox.MyState(state,idteam,idplayer)
         if mystate.can_shoot():
-            return BDB.shootToGoal(mystate)
+		return BDB.shootToGoal(mystate)
         elif mystate.ball_position().x<90:
-            return BDB.goToBall(mystate)
+            	return BDB.goToBall(mystate)
         return BDB.intercepter(mystate,10)
 
 class Shadow(Strategy):
@@ -96,3 +96,13 @@ class Intercept(Strategy):
         if (not mystate.closest2()[0]): 
             return BDB.intercepter(mystate,mystate.distanceToBall(mystate.my_but)*0.75)
         return BDB.goToBall(mystate)
+
+class Attack2(Strategy):
+    def __init__(self):
+        Strategy.__init__(self,"Ma strat")
+    def compute_strategy(self,state,idteam,idplayer):
+        mystate = toolbox.MyState(state,idteam,idplayer)
+        if mystate.can_shoot():
+            return BDB.shootToGoal(mystate)
+        return BDB.goToBall(mystate)
+

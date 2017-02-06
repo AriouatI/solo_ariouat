@@ -16,18 +16,18 @@ import messtrategies as MS
 
 
 joueur1 = Player("Sofiane", MS.Attack())
-joueur2 = Player("messi", MS.Defense())
+joueur2 = Player("Ariouat", MS.Defense())
 team1 = SoccerTeam("Equipe 1", [joueur1,joueur2])
 
-joueur3 = Player("Li", MS.Intercept())
+joueur3 = Player("LI", MS.Intercept())
 joueur4 = Player("Yannick", MS.Attack())
 team2 = SoccerTeam("Equipe 2", [joueur3,joueur4])
 
 """
 team1 = SoccerTeam(name="team1",login="etu1")
 team2 = SoccerTeam(name="team2",login="etu2")
-team1.add("li",Defense())
-team2.add("yannick",Attack())
+team1.add("Li",Defense())
+team2.add("Yannick",Attack())
 """
 """
 #print joueur1.name, joueur2.strategy, joueur2.name, joueur2.strategy
@@ -47,3 +47,4 @@ show_simu(match)
 # mais pas de relancer le match !!!
 # Pour reinitialiser un match
 match.reset()
+

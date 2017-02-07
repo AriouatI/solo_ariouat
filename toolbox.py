@@ -21,6 +21,9 @@ class MyState(object):
     
     def my_position(self):
         return (self.state.player_state(self.key[0],self.key[1]).position)
+        
+    def allierPos(self,i):
+        return (self.state.player_state((self.key[0]),i).position)
     
     def advPos(self,i):
         return (self.state.player_state((3-self.key[0]),i).position)
@@ -41,9 +44,13 @@ class MyState(object):
         return (a-self.ball_position()).norm
         
     def closest(self,m):
-        goodSide=True
-        maxid=self.key[1]
         mini=self.distanceToBall(self.my_position())
+        goodSide=True
+        maxid=self.key[1]        
+        for i in range (self.nbjoueurs):
+            if (self.distanceToBall(self.allierPos(i))<mini+m):
+                mini=self.distanceToBall(self.allierPos(i))
+                maxid=i
         for i in range (self.nbjoueurs):
             if (self.distanceToBall(self.advPos(i))<mini+m):
                 mini=self.distanceToBall(self.advPos(i))

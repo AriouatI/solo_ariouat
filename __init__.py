@@ -19,12 +19,12 @@ def get_team(i):
     if (i==1):
         s.add("SOLO",MS.Intecept())
     elif (i==2):
-        s.add("ATTAQUANT", MS.Attack())
+        s.add("ATTAQUANT", MS.Attack2())
         s.add("DEFENSEUR", MS.Intercept())
     elif (i==4):
-        s.add("ATTAQUANT 1", MS.Attack())
+        s.add("ATTAQUANT 1", MS.Attack2())
         s.add("ATTAQUANT 2 ", MS.Intercept())
         s.add("DEFENSEUR 1", MS.Defense())
-        s.add("DEFENSEUR 2", MS.DefenseurQuiVaPasLoin())
+        s.add("DEFENSEUR 2", MS.Attack())
     return s
     

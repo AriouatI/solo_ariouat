@@ -14,21 +14,21 @@ import toolbox
 import briques as BDB
 import messtrategies as MS
 
-"""
-joueur1 = Player("Sofiane", MS.Intercept2())
+
+joueur1 = Player("Sofiane", MS.Defense())
 joueur2 = Player("Ariouat", MS.Attack())
 team1 = SoccerTeam("Equipe 1", [joueur1,joueur2])
 
 joueur3 = Player("LI", MS.Intercept())
-joueur4 = Player("Yannick", MS.Attack())
+joueur4 = Player("Yannick", MS.Attack2())
 team2 = SoccerTeam("Equipe 2", [joueur3,joueur4])
-"""
 
+"""
 team1 = SoccerTeam(name="team1",login="etu1")
 team2 = SoccerTeam(name="team2",login="etu2")
 team1.add("Li",MS.Intercept())
 team2.add("Yannick",MS.Defense2())
-
+"""
 """
 #print joueur1.name, joueur2.strategy, joueur2.name, joueur2.strategy
 # renvoie la liste des noms, la liste des strategies

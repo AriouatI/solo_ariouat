@@ -115,8 +115,6 @@ class AttaquantQuiAttend(Strategy):
             return BDB.shootToGoal(mystate)
         return BDB.goToBall(mystate)
 
-
-
 class Shadow(Strategy):
     def __init__(self):
         Strategy.__init__(self,"Ma strat")

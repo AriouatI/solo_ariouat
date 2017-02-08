@@ -13,7 +13,7 @@ import math
 
 class MyState(object):
     def __init__(self,state,idteam,idplayer):
-	self.state = state
+        self.state = state
         self.key = (idteam,idplayer)
         self.nbjoueurs=state.nb_players(1)
         self.my_but = Vector2D(settings.GAME_WIDTH/2+(-1)**(self.key[0])*settings.GAME_WIDTH/2,settings.GAME_HEIGHT/2) 

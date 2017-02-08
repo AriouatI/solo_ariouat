@@ -16,7 +16,7 @@ def goToBall(m):
 	return m.aller(m.ball_position())
     
 def goToBallPredict(m):
-	return m.aller(m.ballPredict(5))
+	return m.aller(m.ballPredict(1))
     
 def intercepter(m,d):
 	return m.aller((m.ball_position()-m.my_but).normalize()*d+m.my_but)

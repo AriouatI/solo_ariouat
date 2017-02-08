@@ -56,14 +56,17 @@ class Intercept(Strategy):
     def compute_strategy(self,state,idteam,idplayer):
         mystate = toolbox.MyState(state,idteam,idplayer)
         if mystate.can_shoot():
-            if (mystate.closest(4)[0] and self.enplace==0):
+            if (mystate.closest(4)[0] and mystate.closest(2)[1]==idplayer and self.enplace==0):
                 self.enplace=1
                 return BDB.saligner(mystate,mystate.distanceToBall(mystate.adv_but)+2)
             self.enplace=0
             return BDB.shootToGoal(mystate)
-        if (not mystate.closest(0)[0] or mystate.closest(0)[1]!=idplayer): 
-            return BDB.intercepter(mystate,mystate.distanceToBall(mystate.my_but)*0.65)
-        return BDB.goToBallPredict(mystate)
+        #if (not mystate.closest(0)[0] or mystate.closest(0)[1]!=idplayer): 
+            #return BDB.intercepter(mystate,mystate.distanceToBall(mystate.my_but)*0.65)
+        #return BDB.goToBallPredict(mystate)
+        if (mystate.closest(0)[0] and mystate.closest(0)[1]==idplayer):
+            return BDB.goToBallPredict(mystate)
+        return BDB.intercepter(mystate,mystate.distanceToBall(mystate.my_but)*0.45)
 
 class Attack2(Strategy):
     def __init__(self):
@@ -72,13 +75,13 @@ class Attack2(Strategy):
     def compute_strategy(self,state,idteam,idplayer):
         mystate = toolbox.MyState(state,idteam,idplayer)
         if mystate.can_shoot():
-            if (mystate.closest(3)[0] and self.enplace==0):
+            if (mystate.closest(2)[0] and mystate.closest(2)[1]==idplayer and self.enplace==0):
                 self.enplace=1
                 return BDB.saligner(mystate,mystate.distanceToBall(mystate.adv_but)+2)
             self.enplace=0
             return BDB.shootToGoal(mystate)
         if (mystate.closest(0)[0] and mystate.closest(0)[1]!=idplayer):
-                return BDB.saligner(mystate,mystate.distanceToBall(mystate.adv_but)-40)
+                return BDB.saligner(mystate,mystate.distanceToBall(mystate.adv_but)-45)
         return BDB.goToBallPredict(mystate)
 
 class DefenseurQuiVaPasLoin(Strategy):
@@ -87,9 +90,9 @@ class DefenseurQuiVaPasLoin(Strategy):
     def compute_strategy(self,state,idteam,idplayer):
         mystate = toolbox.MyState(state,idteam,idplayer)
         if mystate.can_shoot():
-		return BDB.shootToGoal(mystate)
+            return BDB.shootToGoal(mystate)
         elif mystate.ball_position().x<90:
-            	return BDB.goToBall(mystate)
+            return BDB.goToBall(mystate)
         return BDB.intercepter(mystate,10)
         
 """

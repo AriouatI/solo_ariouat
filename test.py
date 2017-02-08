@@ -15,7 +15,7 @@ import briques as BDB
 import messtrategies as MS
 
 joueur1 = Player("Sofiane", MS.Defense())
-joueur2 = Player("Ariouat", MS.Attack())
+joueur2 = Player("Ariouat", MS.Attack2())
 team1 = SoccerTeam("Equipe 1", [joueur1,joueur2])
 
 joueur3 = Player("LI", MS.Intercept())
@@ -40,6 +40,8 @@ match = Simulation(team1, team2, 2000)
 #Jouer le match (sans le visualiser)
 #match.play()
 #Jouer le match en le visualisant
+show_simu(match)
+show_simu(match)
 show_simu(match)
 #Attention !! une fois le match joue, la fonction play() permet de faire jouer le replay
 # mais pas de relancer le match !!!

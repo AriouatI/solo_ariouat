@@ -71,14 +71,14 @@ class Attack2(Strategy):
     def compute_strategy(self,state,idteam,idplayer):
         mystate = toolbox.MyState(state,idteam,idplayer)
         if mystate.can_shoot():
-            if (mystate.closest(4)[0] and self.enplace==0):
+            if (mystate.closest(3)[0] and self.enplace==0):
                 self.enplace=1
                 return BDB.saligner(mystate,mystate.distanceToBall(mystate.adv_but)+2)
             self.enplace=0
             return BDB.shootToGoal(mystate)
         if (mystate.closest(0)[0] and mystate.closest(0)[1]!=idplayer):
-                return BDB.saligner(mystate,mystate.distanceToBall(mystate.adv_but)-30)
-        return BDB.goToBall(mystate)
+                return BDB.saligner(mystate,mystate.distanceToBall(mystate.adv_but)-40)
+        return BDB.goToBallPredict(mystate)
 
 class DefenseurQuiVaPasLoin(Strategy):
     def __init__(self):

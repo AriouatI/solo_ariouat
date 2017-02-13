@@ -17,7 +17,7 @@ import messtrategies as MS
 def get_team(i):
 	s=SoccerTeam("Ariouati")
 	if (i==1):
-		s.add("SOLO",MS.Intecept())
+		s.add("SOLO",MS.Intercept())
 	elif (i==2):
 		s.add("ATTAQUANT", MS.Attack2())
 		s.add("DEFENSEUR", MS.Intercept())

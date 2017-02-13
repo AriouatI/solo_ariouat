@@ -26,3 +26,9 @@ def saligner(m,d):
     
 def shootToGoal(m):
 	return m.shoot(m.adv_but)
+
+def goToBallAmeliore(m,k):
+	return m.aller(m.ball_position(),k*m.distanceToBall(m.my_position()))
+ 
+def shootToGoalAmeliore(m,k1,k2):
+	return m.shoot(m.adv_but,k1*m.distanceToBall(m.adv_but)+k2*m.my_vitesse())

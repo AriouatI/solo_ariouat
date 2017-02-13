@@ -22,6 +22,9 @@ class MyState(object):
     def my_position(self):
         return (self.state.player_state(self.key[0],self.key[1]).position)
         
+    def my_vitesse(self):
+        return (self.state.player_state(self.key[0],self.key[1]).vitesse).norm
+        
     def allierPos(self,i):
         return (self.state.player_state((self.key[0]),i).position)
     
@@ -31,11 +34,11 @@ class MyState(object):
     def ball_position(self):
         return self.state.ball.position
     
-    def aller(self,p):
-        return SoccerAction(p-self.my_position(),Vector2D())
+    def aller(self,p,k=1):
+        return SoccerAction(k*(p-self.my_position()),Vector2D())
     
-    def shoot(self,p):
-        return SoccerAction(Vector2D(),p-self.my_position())
+    def shoot(self,p,k=1):
+        return SoccerAction(Vector2D(),k*(p-self.my_position()))
     
     def can_shoot(self):
         return self.my_position().distance(self.ball_position())<=(settings.PLAYER_RADIUS+settings.BALL_RADIUS)

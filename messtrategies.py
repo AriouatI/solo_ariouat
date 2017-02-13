@@ -84,6 +84,7 @@ class Attack2(Strategy):
                 return BDB.saligner(mystate,mystate.distanceToBall(mystate.adv_but)-45)
         return BDB.goToBallPredict(mystate)
 
+"""
 class DefenseurQuiVaPasLoin(Strategy):
     def __init__(self):
         Strategy.__init__(self,"Ma strat")
@@ -95,7 +96,6 @@ class DefenseurQuiVaPasLoin(Strategy):
             return BDB.goToBall(mystate)
         return BDB.intercepter(mystate,10)
         
-"""
 class Def1(Strategy):
     def __init__(self):
         Strategy.__init__(self,"Ma strat")

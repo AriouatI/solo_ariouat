@@ -41,8 +41,6 @@ match = Simulation(team1, team2, 2000)
 #match.play()
 #Jouer le match en le visualisant
 show_simu(match)
-show_simu(match)
-show_simu(match)
 #Attention !! une fois le match joue, la fonction play() permet de faire jouer le replay
 # mais pas de relancer le match !!!
 # Pour reinitialiser un match

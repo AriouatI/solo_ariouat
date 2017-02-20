@@ -18,7 +18,10 @@ class MyState(object):
         self.nbjoueurs=state.nb_players(1)
         self.my_but = Vector2D(settings.GAME_WIDTH/2+(-1)**(self.key[0])*settings.GAME_WIDTH/2,settings.GAME_HEIGHT/2) 
         self.adv_but = Vector2D(settings.GAME_WIDTH/2+(-1)**(self.key[0]+1)*settings.GAME_WIDTH/2,settings.GAME_HEIGHT/2)
-    
+        self.posA = Vector2D(settings.GAME_WIDTH/2+(-1)**(self.key[0]+1)**settings.GAME_WIDTH/2,settings.GAME_HEIGHT/2)
+        self.coeff_Def=(-1)**(self.key[0]) # -1 si Equipe 1 sinon 1
+        self.coeff_Att=(-1)**(self.key[0]+1) # 1 si Equipe 1 sinon -1
+
     def my_position(self):
         return (self.state.player_state(self.key[0],self.key[1]).position)
         
@@ -35,10 +38,10 @@ class MyState(object):
         return self.state.ball.position
     
     def aller(self,p,k=1):
-        return SoccerAction(k*(p-self.my_position()),Vector2D())
+        return SoccerAction((p-self.my_position()*k),Vector2D())
     
-    def shoot(self,p,k=1):
-        return SoccerAction(Vector2D(),k*(p-self.my_position()))
+    def shoot(self,p,k=40):
+        return SoccerAction(Vector2D(),(p-self.my_position()).normalize()*k)
     
     def can_shoot(self):
         return self.my_position().distance(self.ball_position())<=(settings.PLAYER_RADIUS+settings.BALL_RADIUS)
@@ -60,7 +63,12 @@ class MyState(object):
                 maxid=i
                 goodSide=False
         return (goodSide,maxid)
+        
+    def imclosest(self):
+        return (self.closest(5)[0] and self.closest(5)[1]==self.key[1])
+        
+    def mateclosest(self):
+        return (self.closest(5)[0] and self.closest(5)[1]!=self.key[1])
 
     def ballPredict(self,t):
         return self.ball_position()+(self.state.ball.vitesse)*t
-

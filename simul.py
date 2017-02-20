@@ -12,6 +12,7 @@ from soccersimulator import settings
 import toolbox
 import briques as BDB
 import messtrategies as MS
+import pyglet
 
 class Attack(Strategy):
     def __init__(self,i,j,k):
@@ -34,13 +35,23 @@ team2=SoccerTeam("Immobile")
 team2.add("IMMO",Strategy("base"))
 
 l=[]
+for i in range (1,10+1):
+    print(i)
+    for j in range(1,10+1):
+        for k in range(1,10+1):
+            l.append([i/10.,j/10.,k/10.,1])
 
-for i in range (1,25):
-    for j in range(1,25):
-        for k in range(1,25):
-            team1=SoccerTeam("Ariouati")
-            team1.add("ATTAQUANT", Attack(i/25.,j/25.,k/25.))
-            match = Simulation(team1, team2,50,initial_state=state)
-            show_simu(match)
-            l.append([i,j,k,match.get_score_team(1)])
-            match.reset()
+for j in range (1,5):
+    for i in range (len(l)):
+        team1=SoccerTeam("Ariouati")
+        team1.add("ATTAQUANT", Attack(l[i][0],l[i][1],l[i][2]))
+        match = Simulation(team1, team2,50,initial_state=state)
+        match.start()
+        if (match.get_score_team(1)==0 and l[i][3]==1):
+            l[i][3]=0
+        match.reset()
+
+for i in range (len(l)):
+    if (l[i][3]==1):
+        print(l[i])
+

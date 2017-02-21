@@ -27,23 +27,36 @@ def saligner(m,d):
 def shootToGoal(m):
     return m.shoot(m.adv_but)
 
-#def degager(m):
-	#return m.shoot(m.adv_but)
 
 def shootEnA(m):
-    if (m.ball_position().y<settings.GAME_HEIGHT/2):
+    if (m.ball_position().y<=settings.GAME_HEIGHT/2):
         return m.shoot(m.posA-Vector2D(0,settings.GAME_HEIGHT/4))
-    if (m.ball_position().y>settings.GAME_HEIGHT/2):
+    if (m.ball_position().y>=settings.GAME_HEIGHT/2):
         return m.shoot(m.posA+Vector2D(0,settings.GAME_HEIGHT/4))
   
 def allerEnA(m):
     if (m.ball_position().y<settings.GAME_HEIGHT/2):
-        return m.shoot(m.posA-Vector2D(0,settings.GAME_HEIGHT/4))
+        return m.aller(m.posA-Vector2D(0,settings.GAME_HEIGHT/4))
     if (m.ball_position().y>settings.GAME_HEIGHT/2):
-        return m.shoot(m.posA+Vector2D(0,settings.GAME_HEIGHT/4))
+        return m.aller(m.posA+Vector2D(0,settings.GAME_HEIGHT/4))
 
 def goToBallAmeliore(m,k):
     return m.aller(m.ball_position(),k*m.distanceToBall(m.my_position()))
  
-def shootToGoalAmeliore(m,k1,k2):
-    return m.shoot(m.adv_but,k1*m.distanceToBall(m.adv_but)+k2*m.my_vitesse())
+def shootToGoalAmeliore(m,k):
+    return m.shoot(m.adv_but,k)
+
+def degager(m):
+    if m.can_shoot():
+        return shootEnA(m)
+    return goToBall(m)
+
+def tirer(m):
+    if m.can_shoot():
+        return shootToGoal(m)
+    return goToBall(m)
+    
+def dribler(m):
+    if m.can_shoot():
+        return shootToGoalAmeliore(m,0.5)
+    return goToBall(m)

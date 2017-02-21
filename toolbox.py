@@ -37,11 +37,11 @@ class MyState(object):
     def ball_position(self):
         return self.state.ball.position
     
-    def aller(self,p,k=1):
-        return SoccerAction(k*(p-self.my_position()),Vector2D())
+    def aller(self,p,k=6):
+        return SoccerAction((p-self.my_position()).normalize()*k,Vector2D())
     
-    def shoot(self,p,k=1):
-        return SoccerAction(Vector2D(),k*(p-self.my_position()))
+    def shoot(self,p,k=6):
+        return SoccerAction(Vector2D(),(p-self.my_position()).normalize()*k)
     
     def can_shoot(self):
         return self.my_position().distance(self.ball_position())<=(settings.PLAYER_RADIUS+settings.BALL_RADIUS)
@@ -63,6 +63,12 @@ class MyState(object):
                 maxid=i
                 goodSide=False
         return (goodSide,maxid)
+        
+    def imclosest(self):
+        return (self.closest(5)[0] and self.closest(5)[1]==self.key[1])
+        
+    def mateclosest(self):
+        return (self.closest(5)[0] and self.closest(5)[1]!=self.key[1])
 
     def ballPredict(self,t):
         return self.ball_position()+(self.state.ball.vitesse)*t

@@ -15,12 +15,12 @@ import briques as BDB
 import messtrategies as MS
 
 def get_team(i):
-    s=SoccerTeam("Ariouati")
+    s=SoccerTeam("ASYL")
     if (i==1):
-        s.add("SOLO",MS.Intercept())
+        s.add("Solo",MS.AttackBase())
     elif (i==2):
-        s.add("ATTAQUANT", MS.Attack3())
-        s.add("DEFENSEUR", MS.Intercept())
+        s.add("Attaquant", MS.Attack2())
+        s.add("Defenseur", MS.Intercept())
     elif (i==4):
         s.add("ATTAQUANT 1", MS.Attack3())
         s.add("ATTAQUANT 2 ", MS.Intercept())

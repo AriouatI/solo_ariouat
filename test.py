@@ -13,30 +13,30 @@ import math
 import toolbox
 import briques as BDB
 import messtrategies as MS
-
-joueur1 = Player("Sofiane", MS.Intercept())
-joueur2 = Player("Ariouat", MS.Attack3())
+"""
+joueur1 = Player("Sofiane", MS.AttackBase())
+joueur2 = Player("Ariouat", MS.Attack2())
 team1 = SoccerTeam("Equipe 1", [joueur1,joueur2])
 
 joueur3 = Player("LI", MS.Intercept())
-joueur4 = Player("Yannick", MS.Attack())
+joueur4 = Player("Yannick", MS.Attack2())
 team2 = SoccerTeam("Equipe 2", [joueur3,joueur4])
 """
 team1 = SoccerTeam(name="team1",login="etu1")
 team2 = SoccerTeam(name="team2",login="etu2")
-team1.add("Li",MS.Intercept())
-team2.add("Yannick",MS.Attack3())
-"""
-"""
+team1.add("Li",MS.Solo1())
+team2.add("Yannick",Strategy("base"))
+
+
 #print joueur1.name, joueur2.strategy, joueur2.name, joueur2.strategy
 # renvoie la liste des noms, la liste des strategies
-print(team1.players_name, team1.strategies)
+#print(team1.players_name, team1.strategies)
 # nom et strategie du premier joueur
-print team1.player_name(0), team1.strategy(0)
-"""
+#print team1.player_name(0), team1.strategy(0)
+
 
 #Creer un match entre 2 equipes et de duree 2000 pas
-match = Simulation(team1, team2, 2000)
+match = Simulation(team1, team2, 3000)
 #Jouer le match (sans le visualiser)
 #match.play()
 #Jouer le match en le visualisant

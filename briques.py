@@ -19,14 +19,17 @@ def goToBallPredict(m):
     return m.aller(m.ballPredict(1))
     
 def intercepter(m,d):
+    if m.can_shoot():
+        return shootToGoal(m)
     return m.aller((m.ball_position()-m.my_but).normalize()*d+m.my_but)
     
 def saligner(m,d):
+    if m.can_shoot():
+        return shootToGoal(m)
     return m.aller((m.ball_position()-m.adv_but).normalize()*d+m.adv_but)
     
 def shootToGoal(m):
     return m.shoot(m.adv_but)
-
 
 def shootEnA(m):
     if (m.ball_position().y<=settings.GAME_HEIGHT/2):
@@ -58,5 +61,17 @@ def tirer(m):
     
 def dribler(m):
     if m.can_shoot():
-        return shootToGoalAmeliore(m)
+        return shootToGoalAmeliore(m,0.5)
     return goToBall(m)
+    
+def allerGauche(m):
+    return m.aller(m.my_position()+Vector2D(-1,0))
+    
+def allerDroite(m):
+    return m.aller(m.my_position()+Vector2D(1,0))
+    
+def allerBas(m):
+    return m.aller(m.my_position()+Vector2D(0,-1))
+    
+def allerHaut(m):
+    return m.aller(m.my_position()+Vector2D(0,1))

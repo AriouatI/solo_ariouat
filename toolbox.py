@@ -37,10 +37,10 @@ class MyState(object):
     def ball_position(self):
         return self.state.ball.position
     
-    def aller(self,p,k=1):
-        return SoccerAction((p-self.my_position()*k),Vector2D())
+    def aller(self,p,k=6):
+        return SoccerAction((p-self.my_position()).normalize()*k,Vector2D())
     
-    def shoot(self,p,k=40):
+    def shoot(self,p,k=6):
         return SoccerAction(Vector2D(),(p-self.my_position()).normalize()*k)
     
     def can_shoot(self):
@@ -49,7 +49,7 @@ class MyState(object):
     def distanceToBall(self,a):
         return (a-self.ball_position()).norm
         
-    def closest(self,m):
+    def closest(self,m=5):
         mini=self.distanceToBall(self.my_position())
         goodSide=True
         maxid=self.key[1]        

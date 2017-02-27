@@ -5,43 +5,67 @@
 Ceci est un script temporaire.
 """
 
-from soccersimulator import Vector2D, SoccerState, SoccerAction
-from soccersimulator import Simulation, SoccerTeam, Player, show_simu
-from soccersimulator import Strategy
-from soccersimulator import settings
 import math
 import toolbox
 import briques as BDB
 import messtrategies as MS
 
-joueur1 = Player("Sofiane", MS.AttackBase())
-joueur2 = Player("Ariouat", MS.Attack2())
-team1 = SoccerTeam("Equipe 1", [joueur1,joueur2])
+from soccersimulator import settings,SoccerTeam, Simulation, show_simu, KeyboardStrategy
+from soccersimulator import Strategy, SoccerAction, Vector2D, load_jsonz,dump_jsonz,Vector2D
+import logging
+import sys
+sys.path.append('../soccersimulator/examples/')
+from arbres import *
+from arbres_utils import build_apprentissage,affiche_arbre,DTreeStrategy
+from sklearn.tree import export_graphviz
+from sklearn.tree import DecisionTreeClassifier
 
-joueur3 = Player("LI", MS.Intercept())
-joueur4 = Player("Yannick", MS.Attack2())
-team2 = SoccerTeam("Equipe 2", [joueur3,joueur4])
+team1=SoccerTeam("team1")
+team2=SoccerTeam("team2")
+
+KBStrat=KeyboardStrategy()
+KBStrat.add('a',MS.Tirer())
+KBStrat.add('z',MS.Degager())
+KBStrat.add('e',MS.Dribler())
+KBStrat.add('q',MS.Intercepter())
+KBStrat.add('h',MS.AllerAGauche())
+KBStrat.add('k',MS.AllerADroite())
+KBStrat.add('j',MS.AllerEnBas())
+KBStrat.add('u',MS.AllerEnHaut())
+
+
+team1.add("Sofiane", MS.Attack2())
+team1.add("Ariouat", MS.Intercept())
+team2.add("LI", MS.Attack2())
+team2.add("Yannick", MS.DefenseBase())
+
+simu = Simulation(team1,team2,3000)
+
+show_simu(simu)
+training_states = KBStrat.states
+dump_jsonz(training_states,"infos_states.jz")
 """
-team1 = SoccerTeam(name="team1",login="etu1")
-team2 = SoccerTeam(name="team2",login="etu2")
-team1.add("Li",MS.Solo1())
-team2.add("Yannick",Strategy("base"))
+def mes_params(state,idt,idp):
+    mystate = toolbox.MyState(state,idt,idp)
+    f1=mystate.distanceToBall(mystate.my_position())
+    f2=int(mystate.imclosest())
+    f3=int(mystate.mateclosest())
+    f4=(mystate.my_position()-mystate.adv_but).norm
+    return [f1,f2,f3,f4]
+    
+states_tuple = load_jsonz("infos_states.jz")
+data_train, data_labels = build_apprentissage(states_tuple,mes_params)
+dt = apprend_arbre(data_train,data_labels,depth=10)
+affiche_arbre(dt)
+genere_dot(dt,"test_arbre.dot")
+
+dic = {"Dribler":MS.Dribler(),"Tirer":MS.Tirer(),"Degager":MS.Degager(),"Intercepter":MS.Intercept()}
+treeStrat1 = DTreeStrategy(dt,dic,mes_params)
+treeStrat2 = DTreeStrategy(dt,dic,mes_params)
+team3 = SoccerTeam("Arbre Team")
+team3.add("Joueur 1",treeStrat1)
+team3.add("Joueur 2",treeStrat2)
+simu = Simulation(team2,team3)
+show_simu(simu)
 """
-
-#print joueur1.name, joueur2.strategy, joueur2.name, joueur2.strategy
-# renvoie la liste des noms, la liste des strategies
-#print(team1.players_name, team1.strategies)
-# nom et strategie du premier joueur
-#print team1.player_name(0), team1.strategy(0)
-
-
-#Creer un match entre 2 equipes et de duree 2000 pas
-match = Simulation(team1, team2, 3000)
-#Jouer le match (sans le visualiser)
-#match.play()
-#Jouer le match en le visualisant
-show_simu(match)
-#Attention !! une fois le match joue, la fonction play() permet de faire jouer le replay
-# mais pas de relancer le match !!!
-# Pour reinitialiser un match
 match.reset()

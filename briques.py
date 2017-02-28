@@ -27,7 +27,6 @@ def saligner(m,d):
 def shootToGoal(m):
     return m.shoot(m.adv_but)
 
-
 def shootEnA(m):
     if (m.ball_position().y<=settings.GAME_HEIGHT/2):
         return m.shoot(m.posA-Vector2D(0,settings.GAME_HEIGHT/4))
@@ -60,3 +59,4 @@ def dribler(m):
     if m.can_shoot():
         return shootToGoalAmeliore(m,0.5)
     return goToBall(m)
+

@@ -18,6 +18,8 @@ class AllerAGauche(Strategy):
         Strategy.__init__(self,"Gauche")
     def compute_strategy(self,state,idteam,idplayer):
         mystate = toolbox.MyState(state,idteam,idplayer)
+        if mystate.can_shoot():
+            return BDB.dribbler(mystate)
         return BDB.allerGauche(mystate)
         
 class AllerADroite(Strategy):
@@ -25,6 +27,8 @@ class AllerADroite(Strategy):
         Strategy.__init__(self,"Droite")
     def compute_strategy(self,state,idteam,idplayer):
         mystate = toolbox.MyState(state,idteam,idplayer)
+        if mystate.can_shoot():
+            return BDB.dribbler(mystate)
         return BDB.allerDroite(mystate)
         
 class AllerEnHaut(Strategy):
@@ -32,6 +36,8 @@ class AllerEnHaut(Strategy):
         Strategy.__init__(self,"Haut")
     def compute_strategy(self,state,idteam,idplayer):
         mystate = toolbox.MyState(state,idteam,idplayer)
+        if mystate.can_shoot():
+            return BDB.dribbler(mystate)
         return BDB.allerHaut(mystate)
         
 class AllerEnBas(Strategy):
@@ -39,6 +45,8 @@ class AllerEnBas(Strategy):
         Strategy.__init__(self,"Bas")
     def compute_strategy(self,state,idteam,idplayer):
         mystate = toolbox.MyState(state,idteam,idplayer)
+        if mystate.can_shoot():
+            return BDB.dribbler(mystate)
         return BDB.allerBas(mystate)
 
 class Tirer(Strategy):
@@ -55,14 +63,14 @@ class AttackBase(Strategy):
         mystate = toolbox.MyState(state,idteam,idplayer)
         if mystate.can_shoot():
             return BDB.tirer(mystate)
-        return BDB.goToBall(mystate)
+        return BDB.goToBallPredict(mystate)
 
-class Dribler(Strategy):
+class Dribbler(Strategy):
     def __init__(self):
-        Strategy.__init__(self,"Dribler")
+        Strategy.__init__(self,"Dribbler")
     def compute_strategy(self,state,idteam,idplayer):
         mystate = toolbox.MyState(state,idteam,idplayer)
-        return BDB.dribler(mystate)
+        return BDB.dribbler(mystate)
         
 class Degager(Strategy):
     def __init__(self):
@@ -78,6 +86,13 @@ class Intercepter(Strategy):
         mystate = toolbox.MyState(state,idteam,idplayer)
         return BDB.intercepter(mystate,mystate.distanceToBall(mystate.my_but)*0.65)
         
+class Saligner(Strategy):
+    def __init__(self):
+        Strategy.__init__(self,"Saligner")
+    def compute_strategy(self,state,idteam,idplayer):
+        mystate = toolbox.MyState(state,idteam,idplayer)
+        return BDB.saligner(mystate,mystate.distanceToBall(mystate.adv_but)*0.65)        
+        
 class DefenseBase(Strategy):
     def __init__(self):
         Strategy.__init__(self,"Ma strat")
@@ -86,11 +101,9 @@ class DefenseBase(Strategy):
         if mystate.can_shoot():
             return BDB.shootToGoal(mystate)
         elif (mystate.my_position().distance(mystate.ball_position())<40 and mystate.my_but.distance(mystate.ball_position())<90):
-            return BDB.goToBall(mystate)
+            return BDB.goToBallPredict(mystate)
         return BDB.intercepter(mystate,20)
         
-
-
 class Intercept(Strategy):
     def __init__(self):
         self.enplace=0

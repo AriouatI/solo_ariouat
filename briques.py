@@ -58,10 +58,16 @@ def tirer(m):
     if m.can_shoot():
         return shootToGoal(m)
     return goToBall(m)
-    
-def dribler(m):
+
+
+def dribblerVersCage(m):
     if m.can_shoot():
         return shootToGoalAmeliore(m,0.5)
+    return goToBall(m) 
+
+def dribbler(m):
+    if m.can_shoot():
+        return m.shoot(m.my_position()+m.myVitesse(),1)
     return goToBall(m)
     
 def allerGauche(m):

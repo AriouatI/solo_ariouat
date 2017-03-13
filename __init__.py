@@ -24,7 +24,7 @@ def get_team(i):
     elif (i==4):
         s.add("ATTAQUANT 1", MS.Attack3())
         s.add("ATTAQUANT 2 ", MS.Intercept())
-        s.add("DEFENSEUR 1", MS.Defense())
+        s.add("DEFENSEUR 1", MS.DefenseBase())
         s.add("DEFENSEUR 2", MS.Attack2())
     return s
     

@@ -25,8 +25,8 @@ class MyState(object):
     def my_position(self):
         return (self.state.player_state(self.key[0],self.key[1]).position)
         
-    def my_vitesse(self):
-        return (self.state.player_state(self.key[0],self.key[1]).vitesse).norm
+    def myVitesse(self):
+        return (self.state.player_state(self.key[0],self.key[1]).vitesse)
         
     def allierPos(self,i):
         return (self.state.player_state((self.key[0]),i).position)
@@ -72,3 +72,12 @@ class MyState(object):
 
     def ballPredict(self,t):
         return self.ball_position()+(self.state.ball.vitesse)*t
+        
+    def ballmyside(self):
+        if self.ball_position().x<settings.GAME_WIDTH/2 and self.key[0]==1:
+            return True
+        elif self.ball_position().x>settings.GAME_WIDTH/2 and self.key[0]==2:
+            return True
+        else :
+            return False   
+

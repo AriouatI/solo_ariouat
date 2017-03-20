@@ -27,9 +27,6 @@ def saligner(m,d):
     if m.can_shoot():
         return shootToGoal(m)
     return m.aller((m.ball_position()-m.adv_but).normalize()*d+m.adv_but)
-    
-def shootToGoal(m):
-    return m.shoot(m.adv_but)
 
 def shootEnA(m):
     if (m.ball_position().y<=settings.GAME_HEIGHT/2):
@@ -46,7 +43,7 @@ def allerEnA(m):
 def goToBallAmeliore(m,k):
     return m.aller(m.ball_position(),k*m.distanceToBall(m.my_position()))
  
-def shootToGoalAmeliore(m,k):
+def shootToGoal(m,k=4.8):
     return m.shoot(m.adv_but,k)
 
 def degager(m):
@@ -62,7 +59,7 @@ def tirer(m):
 
 def dribblerVersCage(m):
     if m.can_shoot():
-        return shootToGoalAmeliore(m,0.5)
+        return shootToGoal(m,0.5)
     return goToBall(m) 
 
 def dribbler(m):

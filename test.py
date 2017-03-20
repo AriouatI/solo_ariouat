@@ -40,7 +40,7 @@ KBStrat=KeyboardStrategy()
 KBStrat.add('a',MS.Tirer())
 KBStrat.add('z',MS.Degager())
 KBStrat.add('e',MS.Dribbler())
-KBStrat.add('r',MS.Saligner())
+KBStrat.add('r',MS.Intercepter())
 
 KBStrat.add('h',MS.AllerAGauche())
 KBStrat.add('k',MS.AllerADroite())
@@ -85,5 +85,4 @@ team3.add("Joueur 1",MS.Intercept())
 team3.add("Joueur 2",treeStrat2)
 simu = Simulation(team3,team2)
 show_simu(simu)
-
 """

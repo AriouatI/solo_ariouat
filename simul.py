@@ -5,53 +5,87 @@ Created on Mon Feb 13 18:32:37 2017
 @author: 3671626
 """
 
-from soccersimulator import Vector2D, SoccerState, SoccerAction
-from soccersimulator import Simulation, SoccerTeam, Player, show_simu
-from soccersimulator import Strategy
 from soccersimulator import settings
-import toolbox
+from soccersimulator import SoccerTeam, Simulation, Strategy, show_simu, Vector2D, SoccerAction
+
+import numpy as np
+import logging
 import briques as BDB
-import messtrategies as MS
-import pyglet
+import toolbox
 
-class Attack(Strategy):
-    def __init__(self,i,j,k):
-        Strategy.__init__(self,"Ma strat")
-        self.i=i
-        self.j=j
-        self.k=k
-    def compute_strategy(self,state,idteam,idplayer):
-        mystate = toolbox.MyState(state,idteam,idplayer)
-        if mystate.can_shoot():
-            return BDB.shootToGoalAmeliore(mystate,self.j,self.k)
-        return BDB.goToBallAmeliore(mystate,self.i)
-                    
+logger = logging.getLogger("simuExpe")
 
-state = SoccerState.create_initial_state(1,1)
-state.player_state(1,0).position = Vector2D(75,45)
-state.ball.position = Vector2D(90,45)
+class ShootSearch(object):
+    """ nombre d'iterations maximales jusqu'a l'arret d'un round
+        discr_step  : pas de discretisation du parametre
+        nb_essais : nombre d'essais par parametre
+    """
+    MAX_STEP = 40
+    def __init__(self):
+        self.strat = ShootExpe()
+        team1 = SoccerTeam("test")
+        team1.add("Expe",self.strat)
+        team2 = SoccerTeam("test2")
+        team2.add("Nothing",Strategy())
+        self.simu = Simulation(team1,team2,max_steps=40000)
+        self.simu.listeners+=self
+        self.discr_step = 20
+        self.nb_essais = 20
+    def start(self,visu=True):
+        """ demarre la visualisation avec ou sans affichage"""
+        if visu :
+            show_simu(self.simu)
+        else:
+            self.simu.start()
+    def begin_match(self,team1,team2,state):
+        """ initialise le debut d'une simulation
+            res : dictionnaire des Resultats
+            last : step du dernier round pour calculer le round de fin avec MAX_STEP
+            but : nombre de but pour ce parametre
+            cpt : nombre d'essais pour ce parametre
+            params : liste des parametres a tester
+            idx : identifiant du parametre courant
+        """
+        self.res = dict()
+        self.last = 0
+        self.but = 0
+        self.cpt = 0
+        self.params = [x for x in  np.linspace(1,settings.maxPlayerShoot,self.discr_step)]
+        self.idx=0
 
-team2=SoccerTeam("Immobile")
-team2.add("IMMO",Strategy("base"))
+    def begin_round(self,team1,team2,state):
+        """ engagement : position random du joueur et de la balle """
+        position = Vector2D(np.random.random()*settings.GAME_WIDTH/2.+settings.GAME_WIDTH/2.,np.random.random()*settings.GAME_HEIGHT)
+        self.simu.state.states[(1,0)].position = position.copy()
+        self.simu.state.states[(1,0)].vitesse = Vector2D()
+        self.simu.state.ball.position = position.copy()
+        self.strat.norm = self.params[self.idx]
+        self.last = self.simu.step
+    def update_round(self,team1,team2,state):
+        """ si pas maximal atteint, fin du tour"""
+        if state.step>self.last+self.MAX_STEP:
+            self.simu.end_round()
+    def end_round(self,team1,team2,state):
+        if state.goal>0:
+            self.but+=1
+        self.cpt+=1
+        if self.cpt>=self.nb_essais:
+            self.res[self.params[self.idx]] = self.but*1./self.cpt
+            logger.debug("parametre %s : %f" %((str(self.params[self.idx]),self.res[self.params[self.idx]])))
+            self.idx+=1
+            self.but=0
+            self.cpt=0
+        """ si plus de parametre, fin du match"""
+        if self.idx>=len(self.params):
+            self.simu.end_match()
 
-l=[]
-for i in range (1,10+1):
-    print(i)
-    for j in range(1,10+1):
-        for k in range(1,10+1):
-            l.append([i/10.,j/10.,k/10.,1])
+class ShootExpe(Strategy):
+    def __init__(self,shoot=None):
+        self.name = "simple action"
+        self.norm = 0
+    def compute_strategy(self,state,id_team,id_player):
+        mystate = toolbox.MyState(state,id_team,id_player)
+        return BDB.shootToGoal(mystate,self.norm)
 
-for j in range (1,5):
-    for i in range (len(l)):
-        team1=SoccerTeam("Ariouati")
-        team1.add("ATTAQUANT", Attack(l[i][0],l[i][1],l[i][2]))
-        match = Simulation(team1, team2,50,initial_state=state)
-        match.start()
-        if (match.get_score_team(1)==0 and l[i][3]==1):
-            l[i][3]=0
-        match.reset()
-
-for i in range (len(l)):
-    if (l[i][3]==1):
-        print(l[i])
-
+expe = ShootSearch()
+expe.start()

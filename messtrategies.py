@@ -70,7 +70,7 @@ class Dribbler(Strategy):
         Strategy.__init__(self,"Dribbler")
     def compute_strategy(self,state,idteam,idplayer):
         mystate = toolbox.MyState(state,idteam,idplayer)
-        return BDB.dribbler(mystate)
+        return BDB.dribblerVersCage(mystate)
         
 class Degager(Strategy):
     def __init__(self):

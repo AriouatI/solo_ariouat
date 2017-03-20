@@ -49,12 +49,12 @@ def shootToGoal(m,k=4.8):
 def degager(m):
     if m.can_shoot():
         return shootEnA(m)
-    return goToBall(m)
+    return goToBallPredict(m)
 
 def tirer(m):
     if m.can_shoot():
         return shootToGoal(m)
-    return goToBall(m)
+    return goToBallPredict(m)
 
 
 def dribblerVersCage(m):

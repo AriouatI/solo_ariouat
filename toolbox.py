@@ -25,6 +25,9 @@ class MyState(object):
     def my_position(self):
         return (self.state.player_state(self.key[0],self.key[1]).position)
         
+    def my_angle(self):
+        return (self.state.player_state(self.key[0],self.key[1]).vitesse).angle        
+        
     def myVitesse(self):
         return (self.state.player_state(self.key[0],self.key[1]).vitesse)
         

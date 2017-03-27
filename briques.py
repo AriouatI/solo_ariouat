@@ -16,12 +16,13 @@ def goToBall(m):
     return m.aller(m.ball_position())
     
 def goToBallPredict(m):
-    return m.aller(m.ballPredict(1))
+    return m.aller(m.ballPredict(3))
     
 def intercepter(m,d):
     if m.can_shoot():
         return shootToGoal(m)
     return m.aller((m.ball_position()-m.my_but).normalize()*d+m.my_but)
+    
     
 def saligner(m,d):
     if m.can_shoot():
@@ -67,6 +68,7 @@ def dribbler(m):
         return m.shoot(m.my_position()+m.myVitesse(),1)
     return goToBall(m)
     
+
 def allerGauche(m):
     return m.aller(m.my_position()+Vector2D(-1,0))
     

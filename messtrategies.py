@@ -13,6 +13,22 @@ import math
 import toolbox
 import briques as BDB
 
+
+def mes_params(state,idt,idp):
+    mystate = toolbox.MyState(state,idt,idp)
+    f1=mystate.distanceToBall(mystate.my_position())
+    f2=int(mystate.imclosest())
+    f3=int(mystate.mateclosest())
+    f4=(mystate.my_position()-mystate.adv_but).norm
+    f5=int(mystate.ballmyside())
+    f6=mystate.distanceToBall(mystate.my_but)
+    f7=((mystate.key[0]-1)*settings.GAME_WIDTH)+mystate.my_position().x
+    f8=mystate.my_angle()
+    f9=mystate.distanceToBall(mystate.advPos(0))
+    f10=mystate.closest()[0]
+    f11=mystate.ball_angle()
+    return [f1,f2,f4,f5,f6,f7,f8,f9,f10,f3,f11]
+    
 class AllerAGauche(Strategy):
     def __init__(self):
         Strategy.__init__(self,"Gauche")
@@ -240,3 +256,27 @@ class Solo(Strategy):
             return BDB.goToBallPredict(mystate)
         return BDB.intercepter(mystate,mystate.distanceToBall(mystate.my_but)*0.65)
         
+class Solo2(Strategy):
+    def __init__(self):
+        self.enplace=0
+        self.attendre=0
+        Strategy.__init__(self,"Ma strat")      
+    def compute_strategy(self,state,idteam,idplayer):
+        mystate = toolbox.MyState(state,idteam,idplayer)
+        if mystate.can_shoot():
+            if (mystate.distanceToBall(mystate.my_but)<60):
+                return BDB.shootToGoal(mystate)
+            if (self.attendre<20):
+                self.attendre+=1
+                BDB.intercepter(mystate,mystate.distanceToBall(mystate.my_but)*0.65)
+            if (mystate.closest(2)[0] and self.enplace<3):
+                self.enplace+=1
+                return BDB.saligner(mystate,mystate.distanceToBall(mystate.adv_but)+2)
+            if (mystate.closest(2)[0] and self.enplace<5 and self.enplace>3):
+                self.enplace+=1
+                return BDB.saligner(mystate,mystate.distanceToBall(mystate.adv_but)+1)
+            self.enplace=0
+            return BDB.shootToGoal(mystate)
+        if (mystate.closest(0)[0] or mystate.distanceToBall(mystate.my_but)<60):
+            return BDB.goToBallPredict(mystate)
+        return BDB.intercepter(mystate,mystate.distanceToBall(mystate.my_but)*0.65)

@@ -11,13 +11,28 @@ from soccersimulator import Strategy
 from soccersimulator import settings
 import math
 import toolbox
+import sys
+import logging
+import pickle
+import os
 import briques as BDB
 import messtrategies as MS
+from arbres_utils import DTreeStrategy
+from sklearn.tree import export_graphviz
+from sklearn.tree import DecisionTreeClassifier
+
+
+dtree = pickle.load(open(os.path.join(os.path.dirname(__file__),"tree.pkl"),"rb"))
+dic = {"Dribbler":MS.Dribbler(),"Tirer":MS.Tirer(),"Degager":MS.Degager(),"Intercepter":MS.Intercept(),"Saligner":MS.Saligner()}
+treeStrat1 = DTreeStrategy(dtree,dic,MS.mes_params)
+
+
+
 
 def get_team(i):
     s=SoccerTeam("ASYL")
     if (i==1):
-        s.add("Solo",MS.AttackBase())
+        s.add("Arbre",treeStrat1)
     elif (i==2):
         s.add("Attaquant", MS.Attack2())
         s.add("Defenseur", MS.Intercept())

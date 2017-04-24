@@ -4,12 +4,15 @@ Created on Mon Jan 23 16:42:54 2017
 
 @author: 3671626
 """
-
+from soccersimulator import GolfState,Golf,Parcours1,Parcours2,Parcours3,Parcours4
 from soccersimulator import Vector2D, SoccerState, SoccerAction
 from soccersimulator import Simulation, SoccerTeam, Player, show_simu
 from soccersimulator import Strategy
 from soccersimulator import settings
 import math
+from soccersimulator import GolfState,Parcours1,Parcours2,Parcours3,Parcours4
+from soccersimulator import SoccerTeam,show_simu
+from soccersimulator import Strategy,SoccerAction,Vector2D,settings
 
 class MyState(object):
     def __init__(self,state,idteam,idplayer):
@@ -86,4 +89,15 @@ class MyState(object):
             return True
         else :
             return False   
-
+            
+            
+    def distanceToZone(self,a):
+        return (a-self.my_position().norm)
+        
+    def closestZone(self,z):
+        res=z[0]
+        for e in z:
+            if(self.distanceToZone(e.position.norm)<self.distanceToZone(res.position.norm)):
+                res=e
+        return res
+        

@@ -4,7 +4,9 @@ Created on Mon Jan 30 16:57:49 2017
 
 @author: 3305496
 """
-
+from soccersimulator import GolfState,Parcours1,Parcours2,Parcours3,Parcours4
+from soccersimulator import SoccerTeam,show_simu
+from soccersimulator import Strategy,SoccerAction,Vector2D,settings
 from soccersimulator import Vector2D, SoccerState, SoccerAction
 from soccersimulator import Simulation, SoccerTeam, Player, show_simu
 from soccersimulator import Strategy
@@ -22,7 +24,9 @@ def intercepter(m,d):
     if m.can_shoot():
         return shootToGoal(m)
     return m.aller((m.ball_position()-m.my_but).normalize()*d+m.my_but)
-    
+
+def freez(m):
+    return SoccerAction(0,0)    
     
 def saligner(m,d):
     if m.can_shoot():
@@ -45,8 +49,27 @@ def goToBallAmeliore(m,k):
     return m.aller(m.ball_position(),k*m.distanceToBall(m.my_position()))
  
 def shootToGoal(m,k=4.8):
-    return m.shoot(m.adv_but,k)
-
+    if m.can_shoot():
+        return m.shoot(m.adv_but,k)
+    return goToBallPredict(m)
+    
+    
+def shootToZone(m,z,k):
+    if m.can_shoot():
+        return m.shoot(z.position+Vector2D(z.l/2.,z.l/2.),k)
+    return goToBallPredict(m)
+    
+def shootToZone1(m,z,k):
+    if m.can_shoot():
+        return m.shoot(z.position,k)
+    return goToBallPredict(m)
+    
+    
+def dribblerToZone(m,z,k=0.5):
+    if m.can_shoot():
+        return shootToZone(m,z,k)
+    return goToBallPredict(m) 
+    
 def degager(m):
     if m.can_shoot():
         return shootEnA(m)
